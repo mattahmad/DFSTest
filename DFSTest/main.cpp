@@ -1,14 +1,58 @@
-//
-//  main.cpp
-//  DFSTest
-//
-//  Created by Matt Ahmad on 2022-10-09.
-//
-
 #include <iostream>
+#include <stack>
+using namespace std;
+#define NODE 6
+typedef struct node {
+    int val;
+    int state;
+}node;
+int graph[NODE][NODE] = {
+    {0, 1, 1, 1, 0, 0},
+    {1, 0, 0, 1, 1, 0},
+    {1, 0, 0, 1, 0, 1},
+    {1, 1, 1, 0, 1, 1},
+    {0, 1, 0, 1, 1, 0},
+    {0, 0, 1, 1, 1, 0}
+};
+
+void dfs(node *vertex, node start){
+    node u;
+    stack<node> myStack;
+    for(int i = 0; i<NODE; i++){
+        vertex[i].state = 0;
+        }
+    myStack.push(start);
+        while(!myStack.empty()){
+            u = myStack.top();
+            myStack.pop();
+            cout << char(u.val+'A') << " ";
+            if(u.state != 1){
+                u.state = 1;
+                vertex[u.val].state = 1;
+                for(int i = 0; i<NODE; i++){
+                if(graph[i][u.val]){
+                    if(vertex[i].state == 0){
+                        myStack.push(vertex[i]);
+                        vertex[i].state = 1;
+                    }
+                }
+            }
+        }
+    }
+}
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    node vertices [NODE];
+    node start;
+    char s;
+    for(int i=0; i<NODE; i++){
+        vertices[i].val = i;
+    }
+    s = 'C';
+    start.val = s-'A';
+    cout << "DFS Traversal: ";
+    dfs(vertices, start);
+    cout << endl;
+    
     return 0;
 }
